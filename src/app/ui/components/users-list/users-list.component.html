@@ -1,7 +1,7 @@
 
 <div class="container">
   <h2>Users list:</h2>
-
+  <button type="button" class="btn btn-primary" [routerLink]="['/user/create']">+New</button>
 
   <table class="table">
     <thead>
@@ -28,6 +28,10 @@
           <i class="pi pi-times text-danger" *ngIf="!user.enabled"></i>
         </td>
         <td>{{ user.createdAt | date : 'yyyy-MM-dd' }}</td>
+        <td>
+          <button type="button" class="btn btn-primary" [routerLink]="['/user/update', user.id]">Edit</button>
+          <button type="button" class="btn btn-danger" (click)="deleteUser(user.id)">Delete</button>
+        </td>
       </tr>
     </tbody>
   </table>

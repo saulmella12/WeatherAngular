@@ -17,6 +17,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryDataService } from './core/services/in-memory-data.service';
 import { UserDetailComponent } from './ui/components/user-detail/user-detail.component';
+import { UserFormComponent } from './ui/components/user-form/user-form.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -26,11 +28,13 @@ import { UserDetailComponent } from './ui/components/user-detail/user-detail.com
     TempPipe,
     UsersListComponent,
     WeatherComponent,
-    UserDetailComponent
+    UserDetailComponent,
+    UserFormComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
     AppRoutingModule,
