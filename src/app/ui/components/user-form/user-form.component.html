@@ -5,19 +5,19 @@
             *ngIf="userForm.dirty && userForm.get('name')?.hasError('required')">
             This field is required.
         </small><br/>
-        Name: <input type="text" name="name" formControlName="name" [ngModel]="user?.name"/><br> 
+        Name: <input type="text" name="name" formControlName="name" /><br> 
         <small class="text-danger"
             *ngIf="userForm.dirty && userForm.get('email')?.hasError('required')">
             This field is required.
         </small><br/>
-        Email: <input type="email" name="email" formControlName="email" [ngModel]="user?.email" /><br>
-        Password: <input type="password" name="password" formControlName="password" [ngModel]="user?.password"/><br>
-        Enabled: <input type="checkbox" name="enabled" formControlName="enabled" [ngModel]="user?.enabled" /><br>
+        Email: <input type="email" name="email" formControlName="email"  /><br>
+        Password: <input type="password" name="password" formControlName="password" /><br>
+        Enabled: <input type="checkbox" name="enabled" formControlName="enabled" /><br>
         <small class="text-danger"
             *ngIf="userForm.dirty && userForm.get('createdAt')?.hasError('required')">
             This field is required.
         </small><br/>
-        Created at: <input type="date" name="createdAt" formControlName="createdAt" [ngModel]="user?.createdAt | date:'yyyy-MM-dd' "/><br>
+        Created at: <input type="date" name="createdAt" formControlName="createdAt" /><br>
         <button type="submit" class="btn btn-primary mt-3" [disabled]="userForm.invalid">Enviar</button>
     </form>
 </div>
