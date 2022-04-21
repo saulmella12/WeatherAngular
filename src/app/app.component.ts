@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MenuItem, PrimeIcons } from 'primeng/api';
 import { IWeatherResult } from './core/domain/types';
 import { WeatherService } from './core/services/weather.service';
 
@@ -11,7 +12,9 @@ export class AppComponent {
 
   title = 'angular-weather';
 
+  ngOnInit(): void {
 
+  }
 
 
 }

@@ -12,12 +12,17 @@
         </small><br/>
         Email: <input type="email" name="email" formControlName="email"  /><br>
         Password: <input type="password" name="password" formControlName="password" /><br>
-        Enabled: <input type="checkbox" name="enabled" formControlName="enabled" /><br>
+        <br>    
+        Enabled: <!--<input type="checkbox" name="enabled" formControlName="enabled" />-->
+        <p-inputSwitch formControlName="enabled"></p-inputSwitch>
+        <br>
         <small class="text-danger"
             *ngIf="userForm.dirty && userForm.get('createdAt')?.hasError('required')">
             This field is required.
-        </small><br/>
-        Created at: <input type="date" name="createdAt" formControlName="createdAt" /><br>
+        </small>
+        Created at: <!--<input type="date" name="createdAt" formControlName="createdAt" />-->
+        <p-calendar formControlName="createdAt" dateFormat="yy-mm-dd"></p-calendar>
+        <br>
         <button type="submit" class="btn btn-primary mt-3" [disabled]="userForm.invalid">Enviar</button>
     </form>
 </div>

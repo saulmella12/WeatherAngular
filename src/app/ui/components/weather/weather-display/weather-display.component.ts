@@ -1,4 +1,4 @@
-import { IWeatherResult } from './../../../core/domain/types';
+import { IWeatherResult } from '../../../../core/domain/types';
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({

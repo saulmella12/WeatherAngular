@@ -7,7 +7,7 @@ import { catchError, Observable, of, tap } from 'rxjs';
   providedIn: 'root'
 })
 export class UsersService {
-  private usersUrl = 'api/users';  // URL to web api
+  private usersUrl = 'http://localhost:8080/usuarios';  // URL to web api
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
@@ -28,7 +28,15 @@ export class UsersService {
     const url = `${this.usersUrl}/${id}`;
     return this.http.get<IUser>(url).pipe(
       tap(_ => console.log(`fetched user id=${id}`)),
-      catchError(this.handleError<IUser>(`getUserById id=${id}`))
+      catchError(this.handleError<IUser>(`getUsersById id=${id}`))
+    );
+  }
+
+  getUserByEmail(email: String, password: String): Observable<IUser>{
+    const url = `${this.usersUrl}/prueba/${email}/${password}`;
+    return this.http.get<IUser>(url).pipe(
+      tap(_ => console.log(`fetched user email=${email}`)),
+      catchError(this.handleError<IUser>(`getUsersByEmail email=${email}`))
     );
   }
 
@@ -49,8 +57,8 @@ export class UsersService {
     );
   }
   updateUser(user: IUser): Observable<any> {
-    return this.http.put(this.usersUrl, user, this.httpOptions).pipe(
-      tap(_ => console.log(`updated user id=${user.id}`)),
+    return this.http.put(`${ this.usersUrl }/${ user.id }`, user, this.httpOptions).pipe(
+      tap(_ => console.log(`updated hero id=${user.id}`)),
       catchError(this.handleError<any>('updateUser'))
     );
   }
