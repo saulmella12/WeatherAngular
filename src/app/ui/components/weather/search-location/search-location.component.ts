@@ -3,6 +3,7 @@ import { IFeature, ISearchItem, IWeatherResult } from '../../../../core/domain/t
 import { LocationService } from '../../../../core/services/location.service';
 import { Component } from "@angular/core";
 import { ISearchResult } from 'src/app/core/domain/types';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-search-location',
@@ -14,7 +15,7 @@ export class SearchLocationComponent {
   selectedItem: ISearchItem | undefined;
 
   results: ISearchItem[] = [];
-
+  private subs:Subscription[]=[];
   /**
    *
    */
@@ -25,8 +26,8 @@ export class SearchLocationComponent {
 
   search(text: string) {
       console.log( text );
-      this.service.buscarCiudades( text ).subscribe( this.observer )
-
+      const sub = this.service.buscarCiudades( text ).subscribe( this.observer )
+      this.subs.push(sub);
   }
 
   onItemSelected(event: ISearchItem) {
@@ -34,7 +35,8 @@ export class SearchLocationComponent {
     if (event && event.value && event.value.center) {
       const [ lon, lat ] = event.value.center;
 
-      this.weatherService.searchWeatherByLatLon( lat, lon ).subscribe( this.weatherObserver );
+      const sub2 = this.weatherService.searchWeatherByLatLon( lat, lon ).subscribe( this.weatherObserver );
+      this.subs.push(sub2);
     }
 
   }
@@ -63,4 +65,8 @@ export class SearchLocationComponent {
 
 
    }
+   onDestroy(): void{
+    this.subs.forEach(sub => sub.unsubscribe());
+
+  }
 }

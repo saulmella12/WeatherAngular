@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   mapboxToken: 'pk.eyJ1IjoiZXRlbm9yaW84NyIsImEiOiJjbDBxMDBlMWIyMDEzM2pwdzd1MWI0bjdhIn0.LMZWBv2eBqS63m3PoGpkzA',
-  weatherApiKey: '5a4b2d457ecbef9eb2a71e480b947604'
+  weatherApiKey: '5a4b2d457ecbef9eb2a71e480b947604',
+  backendServer: 'http://localhost:8080'
 };
 
 /*

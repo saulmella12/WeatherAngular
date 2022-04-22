@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { IUser } from 'src/app/core/domain/types';
 import { UsersService } from 'src/app/core/services/users.service';
 import Swal from 'sweetalert2';
@@ -13,7 +14,10 @@ import Swal from 'sweetalert2';
 export class UserFormComponent implements OnInit {
   user: IUser | undefined;
   userForm: FormGroup;
-  constructor(private service: UsersService,private route:ActivatedRoute) {
+
+  private subs: Subscription[] = [];
+
+    constructor(private service: UsersService,private route:ActivatedRoute) {
     const emailPattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$";
     this.userForm = new FormGroup({
       'id': new FormControl(this.user?.id),
@@ -30,7 +34,7 @@ export class UserFormComponent implements OnInit {
     const userId = this.route.snapshot.params['id'];
     if(userId)
     {
-      this.service.getUserById(userId).subscribe( resp2 => this.user = resp2)
+      const sub = this.service.getUserById(userId).subscribe( resp2 => this.user = resp2)
       setTimeout(() => {
         this.userForm.controls['name'].setValue(this.user?.name);
         this.userForm.controls['password'].setValue(this.user?.password);
@@ -39,6 +43,7 @@ export class UserFormComponent implements OnInit {
         this.userForm.controls['createdAt'].setValue(this.getDate(this.user?.createdAt));
         console.log(this.user);
     }, 1000);
+    this.subs.push(sub);
     }
   }
   private getDate(fechaCompleta:string|undefined): string {
@@ -54,7 +59,7 @@ export class UserFormComponent implements OnInit {
       throw Error('Formulario Invalido');
     }else if (this.user?.id == undefined){
       const userData: IUser = this.userForm.value;
-      this.service.addUser(userData).subscribe(console.log);
+      const sub2 = this.service.addUser(userData).subscribe(console.log);
       console.log("Usuario Creado con ID: "+this.user?.id)
       Swal.fire({
         position: 'center',
@@ -63,10 +68,11 @@ export class UserFormComponent implements OnInit {
         showConfirmButton: false,
         timer: 1500
       })
+      this.subs.push(sub2);
     }else if(this.user.id != undefined){
       const userData2: IUser = this.userForm.value;
       userData2.id=this.user.id;
-      this.service.updateUser(userData2).subscribe(console.log);
+      const sub3 = this.service.updateUser(userData2).subscribe(console.log);
       console.log("Usuario actualizado con ID: "+this.user.id);
       Swal.fire({
         position: 'center',
@@ -75,6 +81,11 @@ export class UserFormComponent implements OnInit {
         showConfirmButton: false,
         timer: 1500
       })
+      this.subs.push(sub3);
     }
+  }
+  onDestroy(): void{
+    this.subs.forEach(sub => sub.unsubscribe());
+
   }
 }

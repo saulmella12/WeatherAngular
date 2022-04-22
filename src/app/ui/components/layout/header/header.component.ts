@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { MenuItem, PrimeIcons } from 'primeng/api';
+import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -8,11 +10,12 @@ import { MenuItem, PrimeIcons } from 'primeng/api';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor() { }
+  constructor(public auth: AuthService, private router: Router) { }
 
   menuItems: MenuItem[] = [];
 
   ngOnInit(): void {
+    
 
     this.menuItems = [
         {
@@ -27,6 +30,11 @@ export class HeaderComponent implements OnInit {
         }
     ];
 
+  }
+
+  disconnect(): void{
+      this.auth.disconnect();
+      this.router.navigate(["/login"]);
   }
 
 }

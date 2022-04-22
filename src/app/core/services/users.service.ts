@@ -2,24 +2,27 @@ import { IUser } from './../domain/types';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, Observable, of, tap } from 'rxjs';
+import { environment } from 'src/environments/environment';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsersService {
-  private usersUrl = 'http://localhost:8080/usuarios';  // URL to web api
+  private usersUrl = `${environment.backendServer}/usuarios`;  // URL to web api
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private auth: AuthService) { }
 
 
   /** GET users from the server */
   getUsers(): Observable<IUser[]> {
+
     return this.http.get<IUser[]>(this.usersUrl)
     .pipe(
       tap( console.log ),
-      catchError(this.handleError<IUser[]>('getUsers', []))
+      catchError(this.handleError<IUser[]>('getUsers', [] ))
     );
   }
 
@@ -35,7 +38,7 @@ export class UsersService {
   getUserByEmail(email: String, password: String): Observable<IUser>{
     const url = `${this.usersUrl}/prueba/${email}/${password}`;
     return this.http.get<IUser>(url).pipe(
-      tap(_ => console.log(`fetched user email=${email}`)),
+      tap(_ => console.log(`fetched user email=${email},${password}`)),
       catchError(this.handleError<IUser>(`getUsersByEmail email=${email}`))
     );
   }
@@ -46,7 +49,7 @@ export class UsersService {
       tap((newUser: IUser) => console.log(`added user w/ id=${newUser.id}`)),
       catchError(this.handleError<IUser>('addUser'))
     );
-  }
+  } 
 
   deleteUser(id: number): Observable<IUser> {
     const url = `${this.usersUrl}/${id}`;

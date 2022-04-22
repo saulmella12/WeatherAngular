@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { IUser } from 'src/app/core/domain/types';
 import { UsersService } from 'src/app/core/services/users.service';
 import Swal from 'sweetalert2';
@@ -10,11 +11,12 @@ import Swal from 'sweetalert2';
 export class UsersListComponent implements OnInit {
 
   users: IUser[] = [];
-
+  private subs: Subscription[]=[];
   constructor(private service: UsersService) { }
 
   ngOnInit(): void {
-    this.service.getUsers().subscribe( resp => this.users = resp );
+    const sub = this.service.getUsers().subscribe( resp => this.users = resp );
+    this.subs.push(sub);
   }
 
   deleteUser(userId: number):void{
@@ -29,9 +31,10 @@ export class UsersListComponent implements OnInit {
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.service.deleteUser(userId).subscribe(resp=>{
-          const list = this.users.filter(user => user.id != userId);
-          this.users = [...list];
+        const sub2 = this.service.deleteUser(userId).subscribe(resp=>{
+        const list = this.users.filter(user => user.id != userId);
+        this.users = [...list];
+        this.subs.push(sub2);
         });
         Swal.fire(
           'Usuario Borrado!',
@@ -42,5 +45,8 @@ export class UsersListComponent implements OnInit {
     })
     
   }
+  onDestroy(): void{
+    this.subs.forEach(sub => sub.unsubscribe());
 
+  }
 }

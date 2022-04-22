@@ -7,6 +7,9 @@ import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { MenubarModule } from 'primeng/menubar';
 import { HeaderComponent } from './ui/components/layout/header/header.component';
+import { HTTP_INTERCEPTORS_PROVIDERS } from './core/http';
+import { SharedModule } from 'primeng/api';
+import { ButtonModule } from 'primeng/button';
 
 
 @NgModule({
@@ -21,8 +24,10 @@ import { HeaderComponent } from './ui/components/layout/header/header.component'
     BrowserAnimationsModule,
     AppRoutingModule,
     MenubarModule,
+    ButtonModule,
+    SharedModule
   ],
-  providers: [],
+  providers: [HTTP_INTERCEPTORS_PROVIDERS],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
