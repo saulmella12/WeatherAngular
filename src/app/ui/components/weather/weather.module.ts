@@ -7,9 +7,11 @@ import { RouterModule, Routes } from '@angular/router';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { FormsModule } from '@angular/forms';
 import { TempPipe } from 'src/app/core/pipes/temp.pipe';
+import { AuthGuard } from 'src/app/core/guards/auth.guard';
 
 const routes: Routes = [
-  {path: '', component: WeatherComponent}
+  {path: '', component: WeatherComponent, canActivate: [AuthGuard]},
+  {path: 'asd', component: WeatherComponent}
 ];
 
 @NgModule({

@@ -34,6 +34,13 @@ export class UsersService {
       catchError(this.handleError<IUser>(`getUsersById id=${id}`))
     );
   }
+  getUsersByPage(pageNumber: number): Observable<IUser[]> {
+    const url = `${this.usersUrl}/page/${pageNumber}`;
+    return this.http.get<IUser[]>(url).pipe(
+      tap(_ => console.log(`fetched page number=${pageNumber}`)),
+      catchError(this.handleError<IUser[]>(`getUserByPage page=${pageNumber}`))
+    );
+  }
 
   getUserByEmail(email: String, password: String): Observable<IUser>{
     const url = `${this.usersUrl}/prueba/${email}/${password}`;

@@ -10,7 +10,7 @@ import { HeaderComponent } from './ui/components/layout/header/header.component'
 import { HTTP_INTERCEPTORS_PROVIDERS } from './core/http';
 import { SharedModule } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
-
+import { DirectivesModule } from './core/directives/directives.module';
 
 @NgModule({
   declarations: [
@@ -25,7 +25,8 @@ import { ButtonModule } from 'primeng/button';
     AppRoutingModule,
     MenubarModule,
     ButtonModule,
-    SharedModule
+    SharedModule,
+    DirectivesModule
   ],
   providers: [HTTP_INTERCEPTORS_PROVIDERS],
   bootstrap: [AppComponent]
